@@ -41,6 +41,12 @@ namespace BusinessLayer.Concrete
 		}
 
         //BlogManager
+
+		public List<Blog> GetLast3Blog()
+		{
+			return _blogDal.GetAllList().Take(3).ToList();
+		}
+		
         public List<Blog> GetBlogListByWriter(int id)
         {
 			return _blogDal.GetAllList(x => x.WriterID == id);
