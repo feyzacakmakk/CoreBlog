@@ -22,13 +22,20 @@
         <tr>
             <td>@item.BlogID</td>
             <td>@item.BlogTitle</td>
-            <td>@item.BlogCreateDate</td>
-            <td>@item.CategoryID</td>
-            <td>@item.BlogStatus</td>
-            <td> <a href="#" class="btn btn-danger">Sil</a></td>
-            <td> <a href="#" class="btn btn-warning">Düzenle</a></td>
+            <td>@(((DateTime)item.BlogCreateDate).ToString("dd-MMM-yyyy"))</td>
+            <td>@item.Category.CategoryName</td>
+            @if (@item.BlogStatus)
+            {
+                <td>Aktif</td>
+            }
+            else
+            {
+                <td>Pasif</td>
+            }
+            <td> <a href="/Blog/BlogListByWriter/@item.BlogID/" class="btn btn-danger">Sil</a></td>
+            <td> <a href="/Blog/EditBlog/@item.BlogID/" class="btn btn-warning">Düzenle</a></td>
         </tr>
     }
 </table>
-<a href="#" class="btn btn-primary mt-3">Yeni Blog Oluştur</a>
+<a href="/Blog/BlogAdd/" class="btn btn-primary mt-3">Yeni Blog Oluştur</a>
 

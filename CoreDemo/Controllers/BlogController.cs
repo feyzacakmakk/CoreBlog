@@ -16,6 +16,7 @@ namespace CoreDemo.Controllers
     public class BlogController : Controller
     {
         BlogManager blogManager = new BlogManager(new EFBlogRepository());
+        CategoryManager categoryManager = new CategoryManager(new EFCategoryRepository());
         public IActionResult Index()
         {
             var values = blogManager.GetBlogListWithCategory(); 
@@ -29,9 +30,47 @@ namespace CoreDemo.Controllers
             return View(values);
         }
 
+        
+
+        [HttpGet]
+        public IActionResult EditBlog(int id)
+        {
+            var blogvalue=blogManager.TGetById(id);
+            List<SelectListItem> categoryvalues = (from x in categoryManager.GetList()
+                                                   select new SelectListItem
+                                                   {
+                                                       Text = x.CategoryName,
+                                                       Value = x.CategoryID.ToString()
+                                                   }).ToList();
+
+            ViewBag.cv = categoryvalues;
+            return View(blogvalue);
+        }
+
+        //BlogController
+
+        [HttpPost]
+        public IActionResult EditBlog(Blog blog)
+        {
+            var blogValue = blogManager.TGetById(blog.BlogID);
+            blog.BlogStatus = true;
+            blog.WriterID = 1;
+            blog.BlogCreateDate = DateTime.Parse(blogValue.BlogCreateDate.ToShortDateString());
+            blogManager.TUpdate(blog);
+            return RedirectToAction("BlogListByWriter");
+        }
+
+        public IActionResult DeleteBlog(int id)
+        {
+            var blogvalue=blogManager.TGetById(id); //silinecek değeri çekiyoruz
+            blogManager.TDelete(blogvalue);
+            return RedirectToAction("BlogListByWriter");
+        }
+
+
         public IActionResult BlogListByWriter()
         {
-            var values= blogManager.GetBlogListByWriter(1);
+            var values= blogManager.GetListWithCategoryByWriterBM(1);
             return View(values);
         }
 
@@ -39,7 +78,6 @@ namespace CoreDemo.Controllers
 		[HttpGet]
         public IActionResult BlogAdd()
 		{
-            CategoryManager categoryManager = new CategoryManager(new EFCategoryRepository());
             List<SelectListItem> categoryvalues = (from x in categoryManager.GetList()
                                                    select new SelectListItem
                                                    {
