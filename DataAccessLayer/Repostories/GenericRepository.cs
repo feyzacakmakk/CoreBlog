@@ -17,6 +17,7 @@ namespace DataAccessLayer.Repostories
             using var context = new Context();
             context.Remove(entity);
             context.SaveChanges();
+            
         }
 
         public List<T> GetAllList()

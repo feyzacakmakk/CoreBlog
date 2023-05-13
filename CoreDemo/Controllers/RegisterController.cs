@@ -27,7 +27,7 @@ namespace CoreDemo.Controllers
 			{
 				writer.WriterAbout = "Deneme yazar kaydı";
 				writer.WriterStatus = true;
-				writerManager.WriterAdd(writer);
+				writerManager.TAdd(writer);
 				return RedirectToAction("Index", "Blog");
 				//Blogcontrollerdaki Index action'una git
 			}
