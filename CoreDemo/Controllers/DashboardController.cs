@@ -1,4 +1,6 @@
-﻿using DataAccessLayer.Concrete;
+﻿using BusinessLayer.Concrete;
+using DataAccessLayer.Concrete;
+using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -7,13 +9,13 @@ namespace CoreDemo.Controllers
 {
     public class DashboardController : Controller
     {
+        DashboardManager dashboardManager = new DashboardManager(new EFDashboardRepository());
         [AllowAnonymous]
         public IActionResult Index()
         {
-            Context context = new Context();
-            ViewBag.toplamBlogSayisi=context.Blogs.Count().ToString();
-            ViewBag.yazarBlogSayisi=context.Blogs.Where(x=>x.WriterID==1).Count().ToString();
-            ViewBag.kategoriSayisi=context.Categories.Count().ToString();
+            ViewBag.totalBlog = dashboardManager.GetTotalBlog();
+            ViewBag.totalCategories=dashboardManager.GetTotalCategories();
+            ViewBag.totalWriterBlog=dashboardManager.GetTotalBlogByWriterId();
             return View();
         }
     }

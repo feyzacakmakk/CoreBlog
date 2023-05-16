@@ -38,7 +38,7 @@ namespace BusinessLayer.Concrete
 
         public List<Blog> GetBlogListWithCategory()
 		{
-			return _blogDal.GetListWithCategory();
+			return _blogDal.GetListWithCategory(); //IBlogDal
 		}
 
       
