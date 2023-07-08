@@ -38,8 +38,8 @@ namespace BusinessLayer.Concrete
 
         public List<Blog> GetBlogListWithCategory()
 		{
-			return _blogDal.GetListWithCategory(); //IBlogDal
-		}
+			return _blogDal.GetListWithCategory().Take(5).ToList(); //IBlogDal
+        }
 
       
         public List<Blog> GetListWithCategoryByWriterBM(int id)
@@ -49,7 +49,7 @@ namespace BusinessLayer.Concrete
 
      
 
-        public void TDelete(Blog t)
+        public void TDelete(Blog t) //IGenericService'den geliyor
         {
             _blogDal.Delete(t); //IGenericDal'dan geliyor
         }
